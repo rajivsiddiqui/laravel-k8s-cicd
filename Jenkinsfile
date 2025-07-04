@@ -78,10 +78,11 @@ pipeline {
                 //sh 'ansible-playbook ansible/deploy.yml --extra-vars "image=$DOCKER_IMAGE:$BUILD_NUMBER"'
                 //sh 'ansible-playbook ansible/deploy-laravel-k8s.yml'
                 withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
-                withEnv(["KUBECONFIG=$KUBECONFIG_FILE"]) {
-                    sh 'ansible-playbook ansible/deploy-laravel-k8s.yml'
+                    withEnv(["KUBECONFIG=$KUBECONFIG_FILE"]) {
+                        sh 'ansible-playbook ansible/deploy-laravel-k8s.yml'
                     }
                 }
+
 
             }
         }
