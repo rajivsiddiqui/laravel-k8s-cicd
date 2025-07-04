@@ -48,6 +48,18 @@ pipeline {
 
             }
         }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh '''
+                        kubectl set image deployment/$KUBE_DEPLOYMENT_NAME laravel=$DOCKER_IMAGE:$IMAGE_TAG
+                        kubectl rollout status deployment/$KUBE_DEPLOYMENT_NAME
+                    '''
+                }
+            }
+        }
+
         // stage('Push to DockerHub') {
         //     steps {
         //         withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
