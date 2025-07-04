@@ -14,7 +14,7 @@ pipeline {
         IMAGE_NAME = "rajivsiddiqui/laravel-app"
         IMAGE_TAG = "latest"
         KUBE_DEPLOYMENT_NAME = "laravel-app"
-        APP_LABEL = "laravel"
+        APP_LABEL = 'laravel'
     }
 
     stages {
