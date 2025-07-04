@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build PHP') {
+            steps {
+                sh 'docker build -t php-laravel ./app'
+            }
+        }
+        stage('Build NGINX') {
+            steps {
+                sh 'docker build -t nginx-laravel ./nginx'
+            }
+        }
+        stage('Push') {
+            steps {
+                echo 'Push images to registry (if required)'
+            }
+        }
+        stage('Deploy to K8s') {
+            steps {
+                sh 'kubectl apply -f k8s/'
+            }
+        }
+    }
+}
