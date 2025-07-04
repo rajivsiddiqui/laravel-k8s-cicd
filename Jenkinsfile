@@ -35,14 +35,17 @@ pipeline {
         // Build docker image
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:$BUILD_NUMBER .'
+                //sh 'docker build -t $DOCKER_IMAGE:$BUILD_NUMBER .'
+                sh 'docker build -t $DOCKER_IMAGE:$IMAGE_TAG .'
             }
         }
 
         stage('Login to dockerhub and push the image') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push $DOCKER_IMAGE:$BUILD_NUMBER'
+                //sh 'docker push $DOCKER_IMAGE:$BUILD_NUMBER'
+                sh 'docker push $DOCKER_IMAGE:$IMAGE_TAG'
+
             }
         }
         // stage('Push to DockerHub') {

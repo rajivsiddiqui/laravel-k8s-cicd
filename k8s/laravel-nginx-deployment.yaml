@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: laravel
-        image: devopssteps/php-laravel
+        image: devopssteps/laravel-app
         ports:
         - containerPort: 9000
         resources:
@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: devopssteps/nginx-laravel
+        image: devopssteps/laravel-nginx
         ports:
         - containerPort: 80
 ---

@@ -6,6 +6,14 @@ This project demonstrates how to deploy a Laravel application on Kubernetes usin
 - MySQL
 - CI/CD pipeline (Jenkinsfile)
 
+
+Build the image
+----------------
+docker build -t laravel-app .
+docker build -t nginx-laravel -f nginx/Dockerfile .
+
+
+
 2. Build Docker Images
 docker build -t php-laravel ./app
 docker build -t php-laravel .           # i use this becaue the Dockerfile is is in root
