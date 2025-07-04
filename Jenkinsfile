@@ -49,16 +49,16 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    sh '''
-                        kubectl set image deployment/$KUBE_DEPLOYMENT_NAME laravel=$DOCKER_IMAGE:$IMAGE_TAG
-                        kubectl rollout status deployment/$KUBE_DEPLOYMENT_NAME
-                    '''
-                }
-            }
-        }
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         script {
+        //             sh '''
+        //                 kubectl set image deployment/$KUBE_DEPLOYMENT_NAME laravel=$DOCKER_IMAGE:$IMAGE_TAG
+        //                 kubectl rollout status deployment/$KUBE_DEPLOYMENT_NAME
+        //             '''
+        //         }
+        //     }
+        // }
 
         // stage('Push to DockerHub') {
         //     steps {
@@ -71,10 +71,12 @@ pipeline {
         //     }
         // }
 
-        // stage('Deploy to K8s via Ansible') {
-        //     steps {
-        //         sh 'ansible-playbook ansible/deploy.yml --extra-vars "image=$DOCKER_IMAGE:$BUILD_NUMBER"'
-        //     }
-        // }
+        stage('Deploy to K8s via Ansible') {
+            steps {
+                //sh 'ansible-playbook ansible/deploy.yml --extra-vars "image=$DOCKER_IMAGE:$BUILD_NUMBER"'
+                sh 'ansible-playbook ansible/deploy-laravel-k8s.yml'
+
+            }
+        }
     }
 }
