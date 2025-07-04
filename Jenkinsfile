@@ -29,7 +29,7 @@ pipeline {
         stage('Clone Repo') {
             steps {
                 //git branch: 'main', url: 'git@github.com:rajivsiddiqui/laravel-k8s-cicd.git'
-                echo $APP_LABEL
+                sh 'echo $APP_LABEL'
             }
         }
         // Build docker image
