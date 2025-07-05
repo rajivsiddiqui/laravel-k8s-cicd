@@ -15,6 +15,8 @@ pipeline {
         IMAGE_TAG = 'latest'
         KUBE_DEPLOYMENT_NAME = 'laravel-app'
         APP_LABEL = 'laravel'
+        KUBECONFIG = "/var/lib/jenkins/kube-minikube/config"
+        MINIKUBE_HOME = "/var/lib/jenkins/kube-minikube/.minikube"
     }
 
     stages {
@@ -49,6 +51,16 @@ pipeline {
             }
         }
 
+        //k8s steps add
+        stage('deploy to kubernetes') {
+            steps {
+                sh './k8s/deploy.sh'
+                sh 'kubectl rollout restart deployment.apps/$KUBE_DEPLOYMENT_NAME' // this force to deployment with the new docker image
+
+            }
+        }
+
+
         // stage('Deploy to Kubernetes') {
         //     steps {
         //         script {
@@ -71,20 +83,22 @@ pipeline {
         //     }
         // }
 
-        stage('Deploy to K8s via Ansible') {
-            steps {
-                sh 'kubectl get pods -n default'
+        // stage('Deploy to K8s via Ansible') {
+        //     steps {
+        //         sh 'kubectl get pods -n default'
 
-                //sh 'ansible-playbook ansible/deploy.yml --extra-vars "image=$DOCKER_IMAGE:$BUILD_NUMBER"'
-                //sh 'ansible-playbook ansible/deploy-laravel-k8s.yml'
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
-                    withEnv(["KUBECONFIG=$KUBECONFIG_FILE"]) {
-                        sh 'ansible-playbook ansible/deploy-laravel-k8s.yml'
-                    }
-                }
+        //         //sh 'ansible-playbook ansible/deploy.yml --extra-vars "image=$DOCKER_IMAGE:$BUILD_NUMBER"'
+        //         //sh 'ansible-playbook ansible/deploy-laravel-k8s.yml'
+        //         withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
+        //             withEnv(["KUBECONFIG=$KUBECONFIG_FILE"]) {
+        //                 sh 'ansible-playbook ansible/deploy-laravel-k8s.yml'
+        //             }
+        //         }
 
 
-            }
-        }
+        //     }
+        // }
     }
+
+
 }
