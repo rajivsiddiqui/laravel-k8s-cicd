@@ -1,0 +1,20 @@
+---
+- name: Deploy Laravel App to Kubernetes
+  hosts: localhost
+  gather_facts: no
+  vars:
+    deployment_name: laravel-app
+    container_name: laravel
+    #namespace: default
+    image_name: devopssteps/laravel-app:latest
+    k8s_namespace: default
+
+  tasks:
+     
+    - name: deploy laravel-app
+      shell: |
+        kubectl apply -f k8s/laravel-nginx-deployment.yaml 
+
+    - name: Force rollout restart (if using :latest)
+      shell: |
+        kubectl rollout restart deployment/{{ deployment_name }} -n {{ k8s_namespace }}

@@ -51,12 +51,22 @@ pipeline {
             }
         }
 
-        //k8s steps add
-        stage('deploy to kubernetes') {
-            steps {
-                sh './k8s/deploy.sh'
-                sh 'kubectl rollout restart deployment.apps/$KUBE_DEPLOYMENT_NAME' // this force to deployment with the new docker image
+        //k8s steps add without ansible
+        // stage('deploy to kubernetes') {
+        //     steps {
+        //         sh './k8s/deploy.sh'
+        //         sh 'kubectl rollout restart deployment.apps/$KUBE_DEPLOYMENT_NAME' // this force to deployment with the new docker image
 
+        //     }
+        // }
+       
+        ////k8s deploy by ansible
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh 'ansible-playbook ansible/deploy-laravel-k8s-simpleway.yaml'
+                    
+                }
             }
         }
 
