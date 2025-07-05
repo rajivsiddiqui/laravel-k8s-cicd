@@ -8,12 +8,13 @@
     #namespace: default
     image_name: devopssteps/laravel-app:latest
     k8s_namespace: default
+    project_root: /home/rajiv/DEVOPS-PROJECT/laravel-k8s-cicd
 
   tasks:
      
     - name: deploy laravel-app
       shell: |
-        kubectl apply -f k8s/laravel-nginx-deployment.yaml 
+        kubectl apply -f {{ project_root }}/k8s/laravel-nginx-deployment.yaml
 
     - name: Force rollout restart (if using :latest)
       shell: |
